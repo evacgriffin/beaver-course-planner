@@ -3,63 +3,50 @@
   <head>
 	<meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script> 
 	<title>Beaver Course Planner</title>
     <meta name="robots" content="noindex,noarchive, nofollow" />
   </head>
 
   <body>
-  	<h1>Beaver Course Planner</h1>
+    <div class="banner">
+        <h1>Beaver Course Planner</h1>
+    </div>
 
     <div class="course-plan">
-        <h2>Your Course Plan</h2>
+        <div class="box-header">
+            <h2 class="box-header-item ">Your Course Plan</h2>
+            <p class="box-header-item ">Required Courses: 0 / 12</p>
+            <p class="box-header-item ">Electives: 0 / 3</p>
+            <button onclick="createTermCard()">Add Term Card</button>
+        </div>
 
-        <div class="flex-container">
-            <div class="term-card">
-                <h3>Fall 24</h3>
-                <p>List of classes</p>
-            </div>
-    
-            <div class="term-card">
-                <h3>Winter 25</h3>
-                <p>List of classes</p>
-            </div>
-    
-            <div class="term-card">
-                <h3>Spring 25</h3>
-                <p>List of classes</p>
-            </div>
-    
-            <div class="term-card">
-                <h3>Summer 25</h3>
-                <p>List of classes</p>
-            </div>
-    
-            <div class="term-card">
-                <h3>Fall 25</h3>
-                <p>List of classes</p>
-            </div>
-    
-            <div class="term-card">
-                <h3>Winter 26</h3>
-                <p>List of classes</p>
-            </div>
+        <div class="flex-container" id="term-card-container">
+            <!-- Term cards dynamically generated with JavaScript. -->
         </div>
     </div>
 
     <div class="course-selection">
-        <h2>Core Courses</h2>
+        <div class="box-header">
+            <h2 class="box-header-item ">Core Courses</h2>
+            <p class="box-header-item ">Legend: Fa, Wi, Sp, Su = course offered during these terms</p>
+        </div>
 
         <div class="flex-container">
+
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>161</h1>
+                        <h3>161</h3>
+                        <h4>Introduction to Computer Science I</h4>
                         <p>
-                            Intro to CS I
+                            Fa, Wi, Sp, Su
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        Back of the card
+                        Overview of fundamental concepts of computer science.
+                        Introduction to problem solving, software engineering, and object-oriented programming.
+                        Includes algorithm design and program development.
                     </div>
                 </div>
             </div>
@@ -67,13 +54,16 @@
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>161</h1>
+                        <h3>162</h3>
+                        <h4>Introduction to Computer Science II</h4>
                         <p>
-                            Intro to CS I
+                            Fa, Wi, Sp, Su
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        Back of the card
+                        Provides an overview of the fundamental concepts of computer science.
+                        Studies basic data structures, computer programming techniques and application of software engineering principles.
+                        Introduces analysis of programs.
                     </div>
                 </div>
             </div>
@@ -81,13 +71,15 @@
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>161</h1>
+                        <h3>225</h3>
+                        <h4>Discrete Structures in Computer Science</h4>
                         <p>
-                            Intro to CS I
+                            Fa, Wi, Sp, Su
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        Back of the card
+                        An introduction to the discrete mathematics of computer science, including logic, set and set operations, 
+                        methods of proof, recursive definitions, combinatorics, and graph theory.
                     </div>
                 </div>
             </div>
@@ -95,13 +87,16 @@
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>161</h1>
+                        <h3>271</h3>
+                        <h4>Computer Architecture and Assembly Language</h4>
                         <p>
-                            Intro to CS I
+                            Fa, Wi, Sp, Su
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        Back of the card
+                        Introduces functional organization and operation of digital computers.
+                        Coverage of assembly language; addressing, stacks, argument passing, arithmetic operations, decisions, macros, modularization, 
+                        linkers, and debuggers.
                     </div>
                 </div>
             </div>
@@ -109,13 +104,16 @@
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>161</h1>
+                        <h3>290</h3>
+                        <h4>Web Development</h4>
                         <p>
-                            Intro to CS I
+                            Fa, Wi, Sp, Su
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        Back of the card
+                        How to design and implement a multi-tier application using web technologies: 
+                        Creation of extensive custom client- and server-side code, consistent with achieving 
+                        a high-quality software architecture. 
                     </div>
                 </div>
             </div>
@@ -123,13 +121,110 @@
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>161</h1>
+                        <h3>340</h3>
+                        <h4>Introduction to Databases</h4>
                         <p>
-                            Intro to CS I
+                            Fa, Wi, Sp, Su
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        Back of the card
+                        Design and implementation of relational databases, including data modeling with ER or UML, diagrams, 
+                        relational schema, SQL queries, relational algebra, user interfaces, and administration. 
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>261</h3>
+                        <h4>Data Structures</h4>
+                        <p>
+                            Fa, Wi, Sp, Su
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Abstract data types, dynamic arrays, linked lists, trees and graphs, binary search trees, hash tables, storage management, 
+                        complexity analysis of data structures.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>325</h3>
+                        <h4>Analysis of Algorithms</h4>
+                        <p>
+                            Fa, Wi, Sp, Su
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Recurrence relations, combinatorics, recursive algorithms, proofs of correctness. 
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>344</h3>
+                        <h4>Operating Systems I</h4>
+                        <p>
+                            Fa, Wi, Sp, Su
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Introduction to operating systems using UNIX as the case study. 
+                        Emphasizes system calls and utilities, fundamentals of processes, and interprocess communication.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>361</h3>
+                        <h4>Software Engineering I</h4>
+                        <p>
+                            Fa, Wi, Sp, Su
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Introduction to the "front end" of the software engineering lifecycle; requirements analysis and specification; 
+                        design techniques; project management.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>362</h3>
+                        <h4>Software Engineering II</h4>
+                        <p>
+                            Fa, Wi, Sp, Su
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Introduction to the "back end" of the software engineering lifecycle implementation; verification and validation; debugging; maintenance.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>467</h3>
+                        <h4>Online Capstone Project</h4>
+                        <p>
+                            Fa, Wi, Sp, Su
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Real-world team-based experience with the software engineering design and delivery cycle, 
+                        including requirements analysis and specification, design techniques, and requirements and 
+                        final project written documentation.
                     </div>
                 </div>
             </div>
@@ -138,20 +233,25 @@
     </div>
 
     <div class="course-selection">
-        <h2>Electives</h2>
+        <div class="box-header">
+            <h2 class="box-header-item ">Electives</h2>
+            <p class="box-header-item ">Legend: Fa, Wi, Sp, Su = course offered during these terms</p>
+        </div>
 
         <div class="flex-container">
 
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>450</h1>
+                        <h3>391</h3>
+                        <h4>Social and Ethical Issues in Computer Science</h4>
                         <p>
-                            Intro to Computer Graphics
+                            Fa, Wi, Sp, Su
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        This is such a cool class!!
+                        In-depth exploration of the social, psychological, political, and ethical issues surrounding 
+                        the computer industry and the evolving information society.
                     </div>
                 </div>
             </div>
@@ -159,13 +259,16 @@
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>450</h1>
+                        <h3>352</h3>
+                        <h4>Introduction to Usability Engineering</h4>
                         <p>
-                            Intro to Computer Graphics
+                            Fa, Wi, Sp, Su
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        This is such a cool class!!
+                        Explores basic principles of usability engineering methods for the design and evaluation of software systems.
+                        Includes the study of human-machine interactions, user interface characteristics and design strategies, 
+                        software evaluation methods, and related guidelines and standards.
                     </div>
                 </div>
             </div>
@@ -173,13 +276,15 @@
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>450</h1>
+                        <h3>450</h3>
+                        <h4>Introduction to Computer Graphics</h4>
                         <p>
-                            Intro to Computer Graphics
+                            Fa
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        This is such a cool class!!
+                        Theoretical and practical treatment of 3D computer graphics using OpenGL: 
+                        geometric modeling, transformations, viewing, lighting, texture mapping, shading, rendering, and animation.
                     </div>
                 </div>
             </div>
@@ -187,13 +292,15 @@
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>450</h1>
+                        <h3>457</h3>
+                        <h4>Computer Graphics Shaders</h4>
                         <p>
-                            Intro to Computer Graphics
+                            Wi
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        This is such a cool class!!
+                        Emphasizes theoretical and practical treatment of computer graphics shaders, 
+                        including both RenderMan and GPU shaders. Explores programming in both RenderMan and OpenGL shading languages.
                     </div>
                 </div>
             </div>
@@ -201,13 +308,16 @@
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>450</h1>
+                        <h3>475</h3>
+                        <h4>Introduction to Parallel Programming</h4>
                         <p>
-                            Intro to Computer Graphics
+                            Sp
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        This is such a cool class!!
+                        Theoretical and practical survey of parallel programming, including a discussion of parallel architectures, 
+                        parallel programming paradigms, and parallel algorithms. Programming one or more parallel computers 
+                        in a higher-level parallel language. 
                     </div>
                 </div>
             </div>
@@ -215,13 +325,199 @@
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" id="card1">
-                        <h1>450</h1>
+                        <h3>427</h3>
+                        <h4>Cryptography</h4>
                         <p>
-                            Intro to Computer Graphics
+                            Su, Wi
                         </p>
                     </div>
                     <div class="flip-card-back">
-                        This is such a cool class!!
+                        Introduction to the theory and practice of modern cryptography. 
+                        Fundamental primitives including pseudorandom generators, block ciphers, hash functions. 
+                        Symmetric-key cryptography for privacy and authenticity. Public-key cryptography based on number-theoretic problems. 
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>464</h3>
+                        <h4>Open Source Software</h4>
+                        <p>
+                            Fa, Wi, Sp, Su
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Provides a theoretical foundation of the history, key concepts, technologies, and practices associated with 
+                        modern Free and Open Source Software (FOSS) projects, and gives students an opportunity to explore and 
+                        make contributions to FOSS projects with some mentoring and guidance. 
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>321</h3>
+                        <h4>Introduction to Theory of Computation</h4>
+                        <p>
+                            Fa, Sp
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Survey of models of computation including finite automata, formal grammars, and Turing machines.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>372</h3>
+                        <h4>Introduction to Computer Networks</h4>
+                        <p>
+                            Fa, Wi, Sp, Su
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Computer network principles, fundamental networking concepts, packet-switching and circuit switching, 
+                        TCP/IP protocol layers, reliable data transfer, congestion control, flow control, packet forwarding 
+                        and routing, MAC addressing, multiple access techniques.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>381</h3>
+                        <h4>Programming Language Fundamentals</h4>
+                        <p>
+                            Fa, Sp
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        An introduction to the concepts found in a variety of programming languages. 
+                        Programming languages as tools for problem solving. A brief introduction to 
+                        languages from a number of different paradigms. 
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>493</h3>
+                        <h4>Cloud Application Development</h4>
+                        <p>
+                            Fa, Sp
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Covers developing RESTful cloud services, an approach based on representational state 
+                        transfer technology, an architectural style and approach to communications used in modern cloud services development.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>373</h3>
+                        <h4>Defense Against the Dark Arts</h4>
+                        <p>
+                            Fa, Su
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Introduction to the current state of the art in anti-malware, computer forensics, 
+                        and networking, messaging, and web security. Broad introduction to the field of computer security. 
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>370</h3>
+                        <h4>Introduction to Security</h4>
+                        <p>
+                            Fa, Sp, Su
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Introductory course on computer security with the objective to introduce concepts and principles 
+                        of computer systems security. Notions of security, basic crytographic primitives and their application, 
+                        basics of authentication and access control, basics of key-management, basics of malware and software security. 
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>477</h3>
+                        <h4>Introduction to Digital Forensics</h4>
+                        <p>
+                            Wi
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Introduces concepts related to digital forensics, its role and importance, and tools and techniques 
+                        for collecting and curating digital evidence. Discusses the role of evidence in the justice system and 
+                        related legal aspects pertaining to digital forensics. Introduces tools and techniques for digital forensics.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>492</h3>
+                        <h4>Mobile Software Development</h4>
+                        <p>
+                            Wi, Su
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Introduction to concepts and techniques for developing mobile applications. 
+                        Become familiar with modern mobile structure, implementation, development tools, and workflow.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>444</h3>
+                        <h4>Operating Systems II</h4>
+                        <p>
+                            Sp
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Explores principles of computer operating systems: concurrent processes, 
+                        memory management, job scheduling, multiprocessing, file systems, performance evaluation, and networking.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" id="card1">
+                        <h3>478</h3>
+                        <h4>Network Security</h4>
+                        <p>
+                            Wi, Sp
+                        </p>
+                    </div>
+                    <div class="flip-card-back">
+                        Basic concepts and techniques in network security, risks and vulnerabilities, applied cryptography 
+                        and various network security protocols. Coverage of high-level concepts such as authentication, 
+                        confidentiality, integrity, and availability applied to networking systems. 
+                        Fundamental techniques including authentication protocols, group key establishment and management, 
+                        trusted intermediaries, public key infrastructures, SSL/TLS, IPSec, firewalls and intrusion detection.
                     </div>
                 </div>
             </div>
