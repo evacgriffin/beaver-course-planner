@@ -31,7 +31,7 @@
     padding: 10px;
   }
 
-.course-plan-header {
+.box-header {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
@@ -39,7 +39,7 @@
     height: auto;
 }
 
-.course-plan-header-item {
+.box-header-item {
     margin: 10px 10px;
 }
 
@@ -69,7 +69,7 @@
     margin: 10px;
     padding: 10px;
     min-width: 100px;
-    max-width: 150px;
+    max-width: 300px;
     height: auto;
     text-align: center;
   }
