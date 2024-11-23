@@ -3,6 +3,7 @@
   <head>
 	<meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script> 
 	<title>Beaver Course Planner</title>
     <meta name="robots" content="noindex,noarchive, nofollow" />
   </head>
@@ -17,38 +18,11 @@
             <h2 class="box-header-item ">Your Course Plan</h2>
             <p class="box-header-item ">Required Courses: 0 / 12</p>
             <p class="box-header-item ">Electives: 0 / 3</p>
+            <button onclick="createTermCard()">Add Term Card</button>
         </div>
 
-        <div class="flex-container">
-            <div class="term-card">
-                <h3 class="term-title">Fall 24</h3>
-                <p>Drop classes here...</p>
-            </div>
-    
-            <div class="term-card">
-                <h3 class="term-title">Winter 25</h3>
-                <p>Drop classes here...</p>
-            </div>
-    
-            <div class="term-card">
-                <h3 class="term-title">Spring 25</h3>
-                <p>Drop classes here...</p>
-            </div>
-    
-            <div class="term-card">
-                <h3 class="term-title">Summer 25</h3>
-                <p>Drop classes here...</p>
-            </div>
-    
-            <div class="term-card">
-                <h3 class="term-title">Fall 25</h3>
-                <p>Drop classes here...</p>
-            </div>
-    
-            <div class="term-card">
-                <h3 class="term-title">Winter 26</h3>
-                <p>Drop classes here...</p>
-            </div>
+        <div class="flex-container" id="term-card-container">
+            <!-- Term cards dynamically generated with JavaScript. -->
         </div>
     </div>
 
