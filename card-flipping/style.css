@@ -1,0 +1,40 @@
+.flip-card {
+  width: 200px;
+  height: 300px;
+  perspective: 1000px; /* Creates 3D perspective */
+  margin: 20px auto;
+}
+
+.flip-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s; /* Smooth flipping */
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: white;
+}
+
+.flip-card-front {
+  background-color: lightblue;
+}
+
+.flip-card-back {
+  background-color: coral;
+  transform: rotateY(180deg); /* Flip the back side */
+}
