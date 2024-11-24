@@ -70,14 +70,22 @@ const cardDropHandler = (e) => {
   const originalElement = document.getElementById(elementId);
   const prereqMet = prereqCheck(elementId, e);
 
+  const currentTerm = e.target.parentElement.getAttribute("data-term");
+  const currentYear = e.target.parentElement.getAttribute("data-year");
+
   if (prereqMet) {
     if (
       originalElement &&
       originalElement.classList.contains("selected-card")
     ) {
+      originalElement.setAttribute("data-term", currentTerm);
+      originalElement.setAttribute("data-year", currentYear);
       e.target.appendChild(originalElement);
     } else {
-      e.target.appendChild(createCourseCopy(elementId));
+      const courseCopy = createCourseCopy(elementId);
+      //   courseCopy.setAttribute("data-term", currentTerm);
+      //   courseCopy.setAttribute("data-year", currentYear);
+      e.target.appendChild(courseCopy, currentTerm, currentYear);
       saveTermCardData();
     }
   }
@@ -106,13 +114,15 @@ const updateDropzoneInstruction = () => {
   }
 };
 
-const createCourseCopy = (elementId) => {
+const createCourseCopy = (elementId, dataTerm, dataYear) => {
   if (!elementId) return;
   const originalElement = document.getElementById(elementId);
   const elementCopy = document.createElement("div");
   elementCopy.id = `selected-${elementId}`;
   elementCopy.classList.add("selected-card", "draggable");
   elementCopy.setAttribute("draggable", true);
+  elementCopy.setAttribute("data-term", dataTerm);
+  elementCopy.setAttribute("data-year", dataYear);
   elementCopy.id = `selected-${originalElement.id}`;
   elementCopy.innerText = originalElement.id;
   elementCopy.addEventListener("dragstart", cardDragHandler);
@@ -172,6 +182,8 @@ function createTermCard(
 
   const termCard = document.createElement("div");
   termCard.className = "term-card";
+  const thisTerm = quarterMap[initialTerm];
+  const thisYear = initialYear;
   termCard.setAttribute("data-term", quarterMap[initialTerm]);
   termCard.setAttribute("data-year", initialYear);
 
@@ -243,7 +255,7 @@ function createTermCard(
 
   // Add all the planned courses
   for (const course of courses) {
-    dropZone.appendChild(createCourseCopy(course));
+    dropZone.appendChild(createCourseCopy(course, thisTerm, thisYear));
   }
 
   // Delete button
@@ -447,14 +459,10 @@ const dropTrashHandler = (e) => {
     const courseId = draggedId.slice(-3);
     draggedElement.remove();
 
-    // TODO: Remove course from localStorage
-    const termCardData = JSON.parse(localStorage.getItem("termCards") || "[]");
-
     // Update course counts
     updateCourseCounts();
 
-    // Need to know which term card
-    const plannedCourses = termCardData["plannedCourses"];
+    saveTermCardData();
 
     updateDropzoneInstruction();
   }
