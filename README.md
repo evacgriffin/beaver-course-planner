@@ -36,6 +36,8 @@ To remove a course from a term, students can drag and drop a card onto the trash
 All changes made are saved in the local storage. The changes are preserved when the page is refreshed.
 
 ## Screenshots
+![beaver-planner](https://github.com/user-attachments/assets/4813ef89-56e1-4eb6-bce1-fc3f6c64273b)
+
 <img width="1465" alt="Screenshot 2024-11-24 at 2 14 06 PM" src="https://github.com/user-attachments/assets/257b4fe8-8ebe-46a2-a733-30dd3c3b3382">
 
 ## License
