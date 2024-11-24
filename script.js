@@ -437,6 +437,29 @@ function generateCards() {
   }
 }
 
+const dropTrashHandler = (e) => {
+  e.preventDefault();
+
+  // Get the ID of the dragged element
+  const draggedId = e.dataTransfer.getData("text");
+  const draggedElement = document.getElementById(draggedId);
+  if (draggedElement.classList.contains("selected-card")) {
+    const courseId = draggedId.slice(-3);
+    draggedElement.remove();
+
+    // TODO: Remove course from localStorage
+    const termCardData = JSON.parse(localStorage.getItem("termCards") || "[]");
+
+    // Update course counts
+    updateCourseCounts();
+
+    // Need to know which term card
+    const plannedCourses = termCardData["plannedCourses"];
+
+    updateDropzoneInstruction();
+  }
+};
+
 function dragDropSetup() {
   const cards = document.getElementsByClassName("flip-card");
 
@@ -446,30 +469,7 @@ function dragDropSetup() {
   }
 
   const trash = document.getElementById("trash");
-  trash.addEventListener("drop", (e) => {
-    e.preventDefault();
-
-    // Get the ID of the dragged element
-    const draggedId = e.dataTransfer.getData("text");
-    const draggedElement = document.getElementById(draggedId);
-    if (draggedElement.classList.contains("selected-card")) {
-      const courseId = draggedId.slice(-3);
-      draggedElement.remove();
-
-      // TODO: Remove course from localStorage
-      const termCardData = JSON.parse(
-        localStorage.getItem("termCards") || "[]"
-      );
-
-      // Update course counts
-      updateCourseCounts();
-
-      // Need to know which term card
-      const plannedCourses = termCardData["plannedCourses"];
-
-      updateDropzoneInstruction();
-    }
-  });
+  trash.addEventListener("drop", dropTrashHandler);
   trash.addEventListener("dragover", allowDrop);
 }
 
