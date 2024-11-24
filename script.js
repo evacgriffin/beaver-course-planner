@@ -30,6 +30,9 @@ function createTermCard(initialTerm = "Select Term", initialYear = "Select Year"
     const termCard = document.createElement("div");
     termCard.className = "term-card";
 
+    // Store the courses in this term card (initially an empty array)
+    termCard.courses = []; 
+
     const termDropdown = document.createElement("div");
     termDropdown.className = "dropdown";
 
@@ -110,6 +113,34 @@ function createTermCard(initialTerm = "Select Term", initialYear = "Select Year"
     termCard.appendChild(deleteButton);
 
     document.getElementById("term-card-container").appendChild(termCard);
+
+    updateCourseCounts();
+}
+
+// This function will be called to update the counts of required and elective courses
+function updateCourseCounts() {
+    let requiredCount = 0;
+    let electiveCount = 0;
+
+    // Get all term cards
+    const termCards = document.querySelectorAll(".term-card");
+    
+    // Loop through each term card
+    termCards.forEach(termCard => {
+        // Loop through the courses in each term card
+        termCard.courses.forEach(course => {
+            // Check if the course is required (core: true) or elective (core: false)
+            if (course.core) {
+                requiredCount++;
+            } else {
+                electiveCount++;
+            }
+        });
+    });
+
+    // Update the course counts in the box header
+    document.getElementById("required-courses").textContent = `Required Courses: ${requiredCount} / 12`;
+    document.getElementById("elective-courses").textContent = `Electives: ${electiveCount} / 3`;
 }
 
 /* When the user clicks on the dropdown button,
@@ -174,8 +205,59 @@ function generateYearOptions() {
 
         dropdownYearItems.appendChild(yearOption);
     }
+}
 
-    console.log("Year options generated."); // Debugging
+function generateCards() {
+    const coreContainer = document.getElementById("core-cards-container");
+    const electiveContainer = document.getElementById("elective-cards-container");
+
+    // Loop through the courses object and generate the flip cards
+    for (const courseId in courses) {
+        const course = courses[courseId];
+
+        // Log the course being processed
+        console.log(course);
+
+        // Create the flip card structure
+        const flipCard = document.createElement("div");
+        flipCard.id = courseId;
+        flipCard.classList.add("flip-card");
+
+        const flipCardInner = document.createElement("div");
+        flipCardInner.classList.add("flip-card-inner");
+
+        // Front of the card
+        const flipCardFront = document.createElement("div");
+        flipCardFront.classList.add("flip-card-front");
+
+        const courseIdElem = document.createElement("h3");
+        courseIdElem.textContent = courseId;
+        flipCardFront.appendChild(courseIdElem);
+
+        const courseNameElem = document.createElement("h4");
+        courseNameElem.textContent = course.name;
+        flipCardFront.appendChild(courseNameElem);
+
+        const termsElem = document.createElement("p");
+        termsElem.textContent = course.terms.join(", ");
+        flipCardFront.appendChild(termsElem);
+
+        // Back of the card
+        const flipCardBack = document.createElement("div");
+        flipCardBack.classList.add("flip-card-back");
+        flipCardBack.textContent = course.description;
+
+        flipCardInner.appendChild(flipCardFront);
+        flipCardInner.appendChild(flipCardBack);
+        flipCard.appendChild(flipCardInner);
+
+        // Append to the appropriate container based on 'core' property
+        if (course.core) {
+            coreContainer.appendChild(flipCard);
+        } else {
+            electiveContainer.appendChild(flipCard);
+        }
+    }
 }
 
 // On page load, load saved term card data and generate years for drop down
@@ -183,3 +265,5 @@ window.onload = function() {
     loadTermCardData();
     generateYearOptions();
   };
+
+  document.addEventListener("DOMContentLoaded", generateCards);
