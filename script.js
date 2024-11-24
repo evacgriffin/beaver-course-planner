@@ -145,14 +145,32 @@ if (currentMonth >= 8 && currentMonth <= 11) {
   currentTerm = "Summer";
 }
 
-// TODO: Increment next new card to next term
+// Increment next new card to next term
+let nextTerm = currentTerm;
+let nextYear = currentYear;
+
+function getNextTermAndYear(currentTerm, currentYear) {
+    const terms = ["Fall", "Winter", "Spring", "Summer"];
+    const currentIndex = terms.indexOf(currentTerm);
+    const nextIndex = (currentIndex + 1) % terms.length; // Circular increment
+    const nextTerm = terms[nextIndex];
+  
+    // Increment year if transitioning to Winter
+    const updatedYear = nextTerm === "Winter" ? currentYear + 1 : currentYear;
+  
+    return { nextTerm, updatedYear };
+  }
 
 function createTermCard(
-  initialTerm = currentTerm,
-  initialYear = currentYear,
+  initialTerm = nextTerm,
+  initialYear = nextYear,
   courses = []
   //   initialInstructions = "Drop classes here..."
 ) {
+  const nextValues = getNextTermAndYear(nextTerm, nextYear);
+  nextTerm = nextValues.nextTerm;
+  nextYear = nextValues.updatedYear;
+
   const termCard = document.createElement("div");
   termCard.className = "term-card";
 
