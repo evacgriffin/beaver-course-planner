@@ -34,8 +34,6 @@ function loadTermCardData() {
   termCardData.forEach((data) => {
     createTermCard(data.term, data.year, data.plannedCourses);
   });
-
-  //   console.log("Term cards loaded:", termCardData);
 }
 
 const cardDragHandler = (e) => {
@@ -83,8 +81,6 @@ const cardDropHandler = (e) => {
       e.target.appendChild(originalElement);
     } else {
       const courseCopy = createCourseCopy(elementId);
-      //   courseCopy.setAttribute("data-term", currentTerm);
-      //   courseCopy.setAttribute("data-year", currentYear);
       e.target.appendChild(courseCopy, currentTerm, currentYear);
       saveTermCardData();
     }
