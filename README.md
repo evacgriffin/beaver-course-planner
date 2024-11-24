@@ -5,6 +5,7 @@
 - [Description](#description)
 - [Run the App](#run-the-app)
 - [Usage](#usage)
+- [Screenshots](#screenshots)
 - [License](#license)
 - [Roadmap](#roadmap)
 
