@@ -26,61 +26,62 @@
       <h1>Beaver Course Planner</h1>
     </div>
 
-    <div class="course-plan">
-      <div class="box-header">
-        <h2 class="box-header-item">Your Course Plan</h2>
-        <p
-          class="box-header-item"
-          id="required-courses"
-        >
-          Required Courses: 0 / 12
-        </p>
-        <p
-          class="box-header-item"
-          id="elective-courses"
-        >
-          Electives: 0 / 3
-        </p>
+    <div class="content-box">
+        <div class="course-plan">
+            <div class="box-header">
+                <h2 class="box-header-item fixed-width-item">Your Course Plan</h2>
+                <p class="box-header-item fixed-width-item" id="required-courses">
+                Required Courses: 0 / 12
+                </p>
+                <p class="box-header-item fixed-width-item" id="elective-courses">
+                Electives: 0 / 3
+                </p>
+                <button class="add-term-card-btn fixed-width-item" onclick="createTermCard()">Add Term Card</button>
+      
+            </div>
+      
+            <div
+              class="flex-container"
+              id="term-card-container"
+            >
+              <!-- Term cards dynamically generated with JavaScript. -->
+            </div>
 
-        <button class="add-term-card-btn" onclick="createTermCard()">Add Term Card</button>
-      </div>
+            <div id="trash" class="flexible-icon box-header-item">
+                <img
+                src="./assets/trash.png"
+                alt="trash icon"
+                />
+            </div>
 
-      <div
-        class="flex-container"
-        id="term-card-container"
-      >
-        <!-- Term cards dynamically generated with JavaScript. -->
-      </div>
-      <div id="trash">
-        <img
-          src="./assets/trash.png"
-          alt="trash icon"
-        />
-      </div>
-    </div>
+        </div>
+      
+          <div class="course-selection">
+            <div class="course-selection-top">
+                <div class="box-header">
+                  <h2 class="box-header-item">Core Courses</h2>
+                </div>
+                <div
+                  class="flex-container"
+                  id="core-cards-container"
+                >
+                  <!-- Required course cards dynamically generated with JavaScript. -->
+                </div>
+              </div>
+          
+              <div class="course-selection-bottom">
+                <div class="box-header">
+                  <h2 class="box-header-item">Electives</h2>
+                </div>
+                <div
+                  class="flex-container"
+                  id="elective-cards-container"
+                >
+                  <!-- Elective course cards dynamically generated with JavaScript. -->
+                </div>
+              </div>
+          </div>
 
-    <div class="course-selection">
-      <div class="box-header">
-        <h2 class="box-header-item">Core Courses</h2>
-      </div>
-      <div
-        class="flex-container"
-        id="core-cards-container"
-      >
-        <!-- Required course cards dynamically generated with JavaScript. -->
-      </div>
-    </div>
-
-    <div class="course-selection">
-      <div class="box-header">
-        <h2 class="box-header-item">Electives</h2>
-      </div>
-      <div
-        class="flex-container"
-        id="elective-cards-container"
-      >
-        <!-- Elective course cards dynamically generated with JavaScript. -->
-      </div>
     </div>
   </body>
 </html>
