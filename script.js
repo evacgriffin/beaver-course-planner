@@ -20,10 +20,8 @@ function saveTermCardData() {
     for (const course of courses) {
       plannedCourses.push(course.id.split("-")[1]);
     }
-    console.log("planned courese", plannedCourses);
     termCardData.push({ term, quarter, year, plannedCourses });
   });
-  console.log("saving term card data");
   localStorage.setItem("termCards", JSON.stringify(termCardData)); // Save to localStorage
   //   console.log("Term cards saved:", termCardData);
 }
@@ -43,16 +41,45 @@ const cardDragHandler = (e) => {
   e.dataTransfer.setData("text", e.target.id);
 };
 
+const prereqCheck = (courseId, e) => {
+  // Get all planned courses from local storage
+  let plannedCourses = new Set();
+  const termCardData = JSON.parse(localStorage.getItem("termCards") || []);
+  termCardData.forEach(
+    (data) =>
+      (plannedCourses = new Set([...plannedCourses, ...data["plannedCourses"]]))
+  );
+
+  // TODO: Check if courses planned are in prior terms
+  // Get the term and year of the current dropzone
+  console.log(typeof plannedCourses);
+  // Check all planned courses in prior term and year
+  const prereqs = courses[courseId].prereq;
+  for (const prereq of prereqs) {
+    if (!plannedCourses.has(prereq)) {
+      return false;
+    }
+  }
+  return true;
+};
+
 const cardDropHandler = (e) => {
   e.preventDefault();
   const elementId = e.dataTransfer.getData("text");
   const originalElement = document.getElementById(elementId);
-  if (originalElement && originalElement.classList.contains("selected-card")) {
-    e.target.appendChild(originalElement);
-  } else {
-    e.target.appendChild(createCourseCopy(elementId));
-    console.log("finish dropping");
-    saveTermCardData();
+  const prereqMet = prereqCheck(elementId, e);
+
+  console.log("prereq met", prereqMet);
+  if (prereqMet) {
+    if (
+      originalElement &&
+      originalElement.classList.contains("selected-card")
+    ) {
+      e.target.appendChild(originalElement);
+    } else {
+      e.target.appendChild(createCourseCopy(elementId));
+      saveTermCardData();
+    }
   }
 };
 
