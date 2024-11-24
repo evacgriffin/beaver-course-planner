@@ -41,6 +41,7 @@
         >
           Electives: 0 / 3
         </p>
+
         <button onclick="createTermCard()">Add Term Card</button>
       </div>
 
@@ -50,14 +51,18 @@
       >
         <!-- Term cards dynamically generated with JavaScript. -->
       </div>
-      <div id="trash"></div>
+      <div id="trash">
+        <img
+          src="./assets/trash.png"
+          alt="trash icon"
+        />
+      </div>
     </div>
 
     <div class="course-selection">
-
-        <div class="box-header">
-            <h2 class="box-header-item ">Core Courses</h2>
-        </div>
+      <div class="box-header">
+        <h2 class="box-header-item">Core Courses</h2>
+      </div>
       <div
         class="flex-container"
         id="core-cards-container"
@@ -67,10 +72,9 @@
     </div>
 
     <div class="course-selection">
-
-        <div class="box-header">
-            <h2 class="box-header-item ">Electives</h2>
-        </div>
+      <div class="box-header">
+        <h2 class="box-header-item">Electives</h2>
+      </div>
       <div
         class="flex-container"
         id="elective-cards-container"
