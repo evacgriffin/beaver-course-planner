@@ -1,53 +1,82 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-	<meta charset="utf-8">
-    <link rel="stylesheet" href="style.css">
-    <script src="data.js" defer></script>
-    <script src="script.js" defer></script> 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Shadows+Into+Light&display=swap" rel="stylesheet">
-	<title>Beaver Course Planner</title>
-    <meta name="robots" content="noindex,noarchive, nofollow" />
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="style.css"
+    />
+    <script
+      src="data.js"
+      defer
+    ></script>
+    <script
+      src="script.js"
+      defer
+    ></script>
+    <title>Beaver Course Planner</title>
+    <meta
+      name="robots"
+      content="noindex,noarchive, nofollow"
+    />
   </head>
 
   <body>
     <div class="banner">
-        <h1>Beaver Course Planner</h1>
+      <h1>Beaver Course Planner</h1>
     </div>
 
     <div class="course-plan">
-        <div class="box-header">
-            <h2 class="box-header-item ">My Course Plan</h2>
-            <p class="box-header-item " id="required-courses">Required Courses: 0 / 12</p>
-            <p class="box-header-item " id="elective-courses">Electives: 0 / 3</p>
-            <button onclick="createTermCard()">Add Term Card</button>
-        </div>
+      <div class="box-header">
+        <h2 class="box-header-item">Your Course Plan</h2>
+        <p
+          class="box-header-item"
+          id="required-courses"
+        >
+          Required Courses: 0 / 12
+        </p>
+        <p
+          class="box-header-item"
+          id="elective-courses"
+        >
+          Electives: 0 / 3
+        </p>
+        <button onclick="createTermCard()">Add Term Card</button>
+      </div>
 
-        <div class="flex-container" id="term-card-container">
-            <!-- Term cards dynamically generated with JavaScript. -->
-        </div>
+      <div
+        class="flex-container"
+        id="term-card-container"
+      >
+        <!-- Term cards dynamically generated with JavaScript. -->
+      </div>
+      <div id="trash"></div>
     </div>
 
     <div class="course-selection">
+
         <div class="box-header">
             <h2 class="box-header-item ">Core Courses</h2>
         </div>
-
-        <div class="flex-container" id="core-cards-container">
-            <!-- Required course cards dynamically generated with JavaScript. -->
-        </div>
+      <div
+        class="flex-container"
+        id="core-cards-container"
+      >
+        <!-- Required course cards dynamically generated with JavaScript. -->
+      </div>
     </div>
 
     <div class="course-selection">
+
         <div class="box-header">
             <h2 class="box-header-item ">Electives</h2>
         </div>
-
-        <div class="flex-container" id="elective-cards-container">
-            <!-- Elective course cards dynamically generated with JavaScript. -->
-        </div>
+      <div
+        class="flex-container"
+        id="elective-cards-container"
+      >
+        <!-- Elective course cards dynamically generated with JavaScript. -->
+      </div>
     </div>
   </body>
-</html>	
+</html>

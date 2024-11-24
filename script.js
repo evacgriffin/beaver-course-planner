@@ -33,7 +33,7 @@ function loadTermCardData() {
     createTermCard(data.term, data.year, data.plannedCourses);
   });
 
-  console.log("Term cards loaded:", termCardData);
+  //   console.log("Term cards loaded:", termCardData);
 }
 
 const cardDragHandler = (e) => {
@@ -41,6 +41,7 @@ const cardDragHandler = (e) => {
 };
 
 const prereqCheck = (courseId, e) => {
+  courseId = courseId.slice(-3);
   // Get all planned courses from local storage
   let plannedCourses = new Set();
   const termCardData = JSON.parse(localStorage.getItem("termCards") || []);
@@ -54,7 +55,7 @@ const prereqCheck = (courseId, e) => {
   // Check all planned courses in prior term and year
   const prereqs = courses[courseId].prereq;
   for (const prereq of prereqs) {
-    if (!plannedCourses.has(prereq)) {
+    if (!plannedCourses.has(prereq.toString())) {
       return false;
     }
   }
@@ -95,6 +96,7 @@ const createCourseCopy = (elementId) => {
   elementCopy.addEventListener("dragover", (e) => e.stopPropagation());
   return elementCopy;
 };
+
 const allowDrop = (e) => {
   e.preventDefault();
 };
@@ -395,6 +397,28 @@ function dragDropSetup() {
     card.addEventListener("dragstart", cardDragHandler);
     card.addEventListener("dragover", allowDrop);
   }
+
+  const trash = document.getElementById("trash");
+  trash.addEventListener("drop", (e) => {
+    e.preventDefault();
+
+    // Get the ID of the dragged element
+    const draggedId = e.dataTransfer.getData("text");
+    const draggedElement = document.getElementById(draggedId);
+    if (draggedElement.classList.contains("selected-card")) {
+      const courseId = draggedId.slice(-3);
+      draggedElement.remove();
+
+      // TODO: Remove course from localStorage
+      const termCardData = JSON.parse(
+        localStorage.getItem("termCards") || "[]"
+      );
+
+      // Need to know which term card
+      const plannedCourses = termCardData["plannedCourses"];
+    }
+  });
+  trash.addEventListener("dragover", allowDrop);
 }
 
 // On page load, load saved term card data and generate years for drop down
