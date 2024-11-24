@@ -62,6 +62,21 @@ const prereqCheck = (courseId, e) => {
   return true;
 };
 
+const termMapping = {
+  1: "Wi",
+  2: "Sp",
+  3: "Su",
+  4: "Fa",
+};
+
+const termOfferedCheck = (courseId, term) => {
+  // Check if a course is offered that term
+  const offeredTerms = courses[courseId].terms;
+  console.log(offeredTerms);
+  const termStr = termMapping[term];
+  return offeredTerms.includes(termStr);
+};
+
 const cardDropHandler = (e) => {
   e.preventDefault();
   const elementId = e.dataTransfer.getData("text");
@@ -71,7 +86,9 @@ const cardDropHandler = (e) => {
   const currentTerm = e.target.parentElement.getAttribute("data-term");
   const currentYear = e.target.parentElement.getAttribute("data-year");
 
-  if (prereqMet) {
+  const isOfferedThisTerm = termOfferedCheck(elementId.slice(-3), currentTerm);
+
+  if (prereqMet && isOfferedThisTerm) {
     if (
       originalElement &&
       originalElement.classList.contains("selected-card")
