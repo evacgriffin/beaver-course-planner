@@ -20,33 +20,114 @@ html {
   padding-left: 0;
 }
 
+.content-box {
+  display: flex;
+  width: 100%;
+  height: auto;
+}
+
 .course-plan {
+  position: relative;
+  width: 50%;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 0;
+  padding-bottom: 10px;
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.course-selection {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: scroll;
+  white-space: nowrap; 
+}
+
+.course-selection-top,
+.course-selection-bottom {
+  flex: 1;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 0;
+  padding-bottom: 10px;
+}
+
+/* .course-plan {
+  position: relative;
   border: 2px solid black;
   border-radius: 5px;
   margin: 10px;
   padding: 10px;
   min-height: 500px;
-  width: auto;
-}
+  width: 50%;
+} */
 
 .box-title {
   padding-left: 20px;
 }
 
-.course-selection {
+/* .course-selection {
+  position: fixed;
+  top: 0;
+  right: 0;
   border: 2px solid black;
   border-radius: 5px;
   margin: 10px;
   padding: 10px;
-}
+  width: 30%;
+} */
 
 .box-header {
   display: flex;
+  flex-direction: column;
   flex-flow: row wrap;
   align-items: center;
-  width: auto;
+  width: 100%;
   height: auto;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid black;
+  background-color: #8e9089;
 }
+
+.box-header-top {
+  display: flex; /* Flow horizontally */
+  flex-direction: row; /* Ensure elements inside flow horizontally */
+  align-items: center; /* Align items vertically centered within the header */
+  justify-content: space-evenly; /* Optional: space out items if needed */
+  width: 100%; /* Full width of the container */
+}
+
+.box-header-bottom {
+  display: flex; /* Allow stacking in a vertical direction */
+  flex-direction: row; /* Stack elements vertically */
+  align-items: center; /* Center the items horizontally if needed */
+  justify-content: space-evenly;
+  width: 100%; /* Full width of the container */
+}
+
+/* .fixed-width-item {
+  width: auto;
+  margin: 10px;
+  padding: 10px;
+}
+
+.flexible-icon {
+  flex-grow: 1;
+  height: auto;
+  max-height: 100%;
+  margin: 10px;
+  padding: 10px;
+} */
 
 .box-header-item {
   margin: 10px 10px;
@@ -76,9 +157,9 @@ html {
 
 .add-term-card-btn {
   background-color: #8e9089;
-  font-size: 12px;
+  border: 1px solid white;
+  font-size: 15px;
   color: white;
-  border: none;
   border-radius: 5px;
   cursor: pointer;
   padding: 5px 10px;
@@ -96,7 +177,7 @@ html {
   font-size: 12px;
   background-color: #8e9089;
   color: white;
-  border: none;
+  border: 1px black solid;
   cursor: pointer;
   border-radius: 5px;
 }
@@ -203,8 +284,12 @@ html {
 }
 
 #trash {
-  height: 100px;
-  width: 100px;
+  padding: 10px;
+  height: 50px;
+  width: auto;
   margin-top: auto;
-  margin-left: auto;
+  margin-left: 20px;
+  top: 20%;
+  right: 5%;
+  position: absolute;
 }
