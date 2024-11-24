@@ -1,3 +1,5 @@
+
+
 # Beaver Course Planner
 
 ## Table of Contents
@@ -10,11 +12,10 @@
 - [Roadmap](#roadmap)
 
 ## Description
+This is a project for BeaverHacks Fall 2024 at Oregon State University.
 
-We created this web app to help our community of OSU computer science post-bacc students plan out their courses for the program.
-Students can create new term cards and drag + drop course cards into the terms.
-The plan is saved in local storage.
-The app enforces course prerequisites and whether a course is offered for a chosen term.
+Our inspiration was to create a useful tool for our community of OSU CS post-bacc students. 
+We wanted a course planner that is easy to use and functional. Our app enforces pre-requisites and also the terms during which electives are offered. It also shows how many courses a student has planned versus total required courses. We hope this app helps our fellow post-bacc students plan their courses. 
 
 ## Run the App
 
@@ -48,11 +49,11 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Roadmap
 
 We wanted to incorporate several more features that we did not get to during the hackathon.
-
-Here is a Roadmap for future work on this project:
-
 - [ ] Prevent term cards for duplicate term/year from being created   
-- [ ] Make design more responsive for different size screens
+- [ ] Make the UI responsive to different size screens
 - [ ] Add an animation or pop up notification when total course count is met
 - [ ] When a term card is deleted, automatically fill the missing term slot when the next new term card is created
 - [ ] Add more information on hover to the course cards, such as course title, description, terms offered information
+- [ ] Add feedback on why a course cannot be added
+- [ ] Dark mode
+
