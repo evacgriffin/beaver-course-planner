@@ -35,6 +35,9 @@ To remove a course from a term, students can drag and drop a card onto the trash
 
 All changes made are saved in the local storage. The changes are preserved when the page is refreshed.
 
+## Screenshots
+<img width="1465" alt="Screenshot 2024-11-24 at 2 14 06 PM" src="https://github.com/user-attachments/assets/257b4fe8-8ebe-46a2-a733-30dd3c3b3382">
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
