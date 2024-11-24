@@ -41,20 +41,33 @@ const cardDragHandler = (e) => {
 };
 
 const prereqCheck = (courseId, e) => {
+  const dropZone = e.target.parentElement;
+  const thisTerm = dropZone.getAttribute("data-term");
+  const thisYear = dropZone.getAttribute("data-year");
   courseId = courseId.slice(-3);
+
   // Get all planned courses from local storage
   let plannedCourses = new Set();
   const termCardData = JSON.parse(localStorage.getItem("termCards") || []);
-  termCardData.forEach(
-    (data) =>
-      (plannedCourses = new Set([...plannedCourses, ...data["plannedCourses"]]))
+
+  // Courses that are planned in previous years
+  const plannedPriorYears = termCardData.filter(
+    (termCard) => termCard.year < thisYear
   );
 
-  // TODO: Check if courses planned are in prior terms
-  // Get the term and year of the current dropzone
+  // Courses that are planned this year and prior quarters
+  const plannedPriorTerms = termCardData
+    .filter((termCard) => termCard.year == thisYear)
+    .filter((termCard) => termCard.quarter.toString() < thisTerm);
+
+  const plan1 = plannedPriorYears.map((obj) => obj.plannedCourses);
+  const plan2 = plannedPriorTerms.map((obj) => obj.plannedCourses);
+  const combinedPlan = plan1.concat(plan2);
+  plannedCourses = new Set(...combinedPlan);
+
   // Check all planned courses in prior term and year
-  const prereqs = courses[courseId].prereq;
-  for (const prereq of prereqs) {
+  let prereqs = courses[courseId].prereq;
+  for (let prereq of prereqs) {
     if (!plannedCourses.has(prereq.toString())) {
       return false;
     }
@@ -72,7 +85,6 @@ const termMapping = {
 const termOfferedCheck = (courseId, term) => {
   // Check if a course is offered that term
   const offeredTerms = courses[courseId].terms;
-  console.log(offeredTerms);
   const termStr = termMapping[term];
   return offeredTerms.includes(termStr);
 };
@@ -82,6 +94,7 @@ const cardDropHandler = (e) => {
   const elementId = e.dataTransfer.getData("text");
   const originalElement = document.getElementById(elementId);
   const prereqMet = prereqCheck(elementId, e);
+  console.log(prereqMet);
 
   const currentTerm = e.target.parentElement.getAttribute("data-term");
   const currentYear = e.target.parentElement.getAttribute("data-year");
@@ -99,14 +112,11 @@ const cardDropHandler = (e) => {
     } else {
       const courseCopy = createCourseCopy(elementId);
       e.target.appendChild(courseCopy, currentTerm, currentYear);
-      saveTermCardData();
     }
   }
 
-  // Go through all drop-zones and check if they are empty
+  saveTermCardData();
   updateDropzoneInstruction();
-
-  // Update course counts
   updateCourseCounts();
 };
 
