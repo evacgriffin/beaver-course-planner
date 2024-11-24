@@ -3,16 +3,29 @@ function saveTermCardData() {
   const termCards = document.querySelectorAll(".term-card");
   const termCardData = [];
 
+  const quarterMap = {
+    Winter: 1,
+    Spring: 2,
+    Summer: 3,
+    Fall: 4,
+  };
   termCards.forEach((card) => {
     const term = card.querySelector(".dropdown .dropbtn").textContent;
+    const quarter = quarterMap[term];
     const year = card.querySelectorAll(".dropdown .dropbtn")[1].textContent;
-    const instructions = card.querySelector(".drop-zone").textContent;
+    // const instructions = card.querySelector(".drop-zone").textContent;
+    const plannedCourses = [];
 
-    termCardData.push({ term, year, instructions });
+    const courses = card.querySelector(".drop-zone").children;
+    for (const course of courses) {
+      plannedCourses.push(course.id.split("-")[1]);
+    }
+    console.log("planned courese", plannedCourses);
+    termCardData.push({ term, quarter, year, plannedCourses });
   });
-
+  console.log("saving term card data");
   localStorage.setItem("termCards", JSON.stringify(termCardData)); // Save to localStorage
-  console.log("Term cards saved:", termCardData);
+  //   console.log("Term cards saved:", termCardData);
 }
 
 // Function to load term card data from localStorage
@@ -20,7 +33,7 @@ function loadTermCardData() {
   const termCardData = JSON.parse(localStorage.getItem("termCards") || "[]");
 
   termCardData.forEach((data) => {
-    createTermCard(data.term, data.year, data.instructions);
+    createTermCard(data.term, data.year, data.plannedCourses);
   });
 
   console.log("Term cards loaded:", termCardData);
@@ -32,12 +45,14 @@ const cardDragHandler = (e) => {
 
 const cardDropHandler = (e) => {
   e.preventDefault();
-  let elementId = e.dataTransfer.getData("text");
+  const elementId = e.dataTransfer.getData("text");
   const originalElement = document.getElementById(elementId);
   if (originalElement && originalElement.classList.contains("selected-card")) {
     e.target.appendChild(originalElement);
   } else {
     e.target.appendChild(createCourseCopy(elementId));
+    console.log("finish dropping");
+    saveTermCardData();
   }
 };
 
@@ -60,7 +75,8 @@ const allowDrop = (e) => {
 function createTermCard(
   initialTerm = "Select Term",
   initialYear = "Select Year",
-  initialInstructions = "Drop classes here..."
+  courses = []
+  //   initialInstructions = "Drop classes here..."
 ) {
   const termCard = document.createElement("div");
   termCard.className = "term-card";
@@ -128,9 +144,14 @@ function createTermCard(
   // Empty drop zone for course cards to be dropped into
   const dropZone = document.createElement("div");
   dropZone.className = "drop-zone";
-  //   dropZone.textContent = initialInstructions;
+  // dropZone.textContent = initialInstructions;
   dropZone.addEventListener("drop", cardDropHandler);
   dropZone.addEventListener("dragover", allowDrop);
+
+  // Add all the planned courses
+  for (const course of courses) {
+    dropZone.appendChild(createCourseCopy(course));
+  }
 
   // Delete button
   const deleteButton = document.createElement("button");
