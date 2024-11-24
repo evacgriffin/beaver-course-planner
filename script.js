@@ -1,16 +1,16 @@
 const initialInstructions = `Drop classes here...`;
 
+const quarterMap = {
+  Winter: 1,
+  Spring: 2,
+  Summer: 3,
+  Fall: 4,
+};
 // Function to save term card data to localStorage
 function saveTermCardData() {
   const termCards = document.querySelectorAll(".term-card");
   const termCardData = [];
 
-  const quarterMap = {
-    Winter: 1,
-    Spring: 2,
-    Summer: 3,
-    Fall: 4,
-  };
   termCards.forEach((card) => {
     const term = card.querySelector(".dropdown .dropbtn").textContent;
     const quarter = quarterMap[term];
@@ -150,22 +150,21 @@ let nextTerm = currentTerm;
 let nextYear = currentYear;
 
 function getNextTermAndYear(currentTerm, currentYear) {
-    const terms = ["Fall", "Winter", "Spring", "Summer"];
-    const currentIndex = terms.indexOf(currentTerm);
-    const nextIndex = (currentIndex + 1) % terms.length; // Circular increment
-    const nextTerm = terms[nextIndex];
-  
-    // Increment year if transitioning to Winter
-    const updatedYear = nextTerm === "Winter" ? currentYear + 1 : currentYear;
-  
-    return { nextTerm, updatedYear };
-  }
+  const terms = ["Fall", "Winter", "Spring", "Summer"];
+  const currentIndex = terms.indexOf(currentTerm);
+  const nextIndex = (currentIndex + 1) % terms.length; // Circular increment
+  const nextTerm = terms[nextIndex];
+
+  // Increment year if transitioning to Winter
+  const updatedYear = nextTerm === "Winter" ? currentYear + 1 : currentYear;
+
+  return { nextTerm, updatedYear };
+}
 
 function createTermCard(
   initialTerm = nextTerm,
   initialYear = nextYear,
   courses = []
-  //   initialInstructions = "Drop classes here..."
 ) {
   const nextValues = getNextTermAndYear(nextTerm, nextYear);
   nextTerm = nextValues.nextTerm;
@@ -173,6 +172,8 @@ function createTermCard(
 
   const termCard = document.createElement("div");
   termCard.className = "term-card";
+  termCard.setAttribute("data-term", quarterMap[initialTerm]);
+  termCard.setAttribute("data-year", initialYear);
 
   // Store the courses in this term card (initially an empty array)
   termCard.courses = [];
