@@ -52,7 +52,6 @@ const prereqCheck = (courseId, e) => {
 
   // TODO: Check if courses planned are in prior terms
   // Get the term and year of the current dropzone
-  console.log(typeof plannedCourses);
   // Check all planned courses in prior term and year
   const prereqs = courses[courseId].prereq;
   for (const prereq of prereqs) {
@@ -69,7 +68,6 @@ const cardDropHandler = (e) => {
   const originalElement = document.getElementById(elementId);
   const prereqMet = prereqCheck(elementId, e);
 
-  console.log("prereq met", prereqMet);
   if (prereqMet) {
     if (
       originalElement &&
