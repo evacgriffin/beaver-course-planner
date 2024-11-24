@@ -1,10 +1,20 @@
+html {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+  }
+
 .banner {
-  background-color: lightgrey;
-  min-height: 100px;
-  padding: 30px 20px;
-  margin: 10px;
-  border: 1px solid white;
-  border-radius: 5px;
+    background-color: #D73F09;
+    color: white;
+    min-height: 100px;
+    padding: 30px 20px;
+    margin: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
 }
 
 .banner h1 {
@@ -66,20 +76,20 @@
 }
 
 .delete-btn {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  padding: 5px 10px;
-  font-size: 12px;
-  background-color: darkgrey;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #8E9089;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .delete-btn:hover {
-  background-color: darkred;
+    background-color: #D73F09;
 }
 
 .flip-card {
