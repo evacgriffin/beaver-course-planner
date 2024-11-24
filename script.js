@@ -34,8 +34,6 @@ function loadTermCardData() {
   termCardData.forEach((data) => {
     createTermCard(data.term, data.year, data.plannedCourses);
   });
-
-  //   console.log("Term cards loaded:", termCardData);
 }
 
 const cardDragHandler = (e) => {
@@ -70,14 +68,20 @@ const cardDropHandler = (e) => {
   const originalElement = document.getElementById(elementId);
   const prereqMet = prereqCheck(elementId, e);
 
+  const currentTerm = e.target.parentElement.getAttribute("data-term");
+  const currentYear = e.target.parentElement.getAttribute("data-year");
+
   if (prereqMet) {
     if (
       originalElement &&
       originalElement.classList.contains("selected-card")
     ) {
+      originalElement.setAttribute("data-term", currentTerm);
+      originalElement.setAttribute("data-year", currentYear);
       e.target.appendChild(originalElement);
     } else {
-      e.target.appendChild(createCourseCopy(elementId));
+      const courseCopy = createCourseCopy(elementId);
+      e.target.appendChild(courseCopy, currentTerm, currentYear);
       saveTermCardData();
     }
   }
@@ -106,13 +110,15 @@ const updateDropzoneInstruction = () => {
   }
 };
 
-const createCourseCopy = (elementId) => {
+const createCourseCopy = (elementId, dataTerm, dataYear) => {
   if (!elementId) return;
   const originalElement = document.getElementById(elementId);
   const elementCopy = document.createElement("div");
   elementCopy.id = `selected-${elementId}`;
   elementCopy.classList.add("selected-card", "draggable");
   elementCopy.setAttribute("draggable", true);
+  elementCopy.setAttribute("data-term", dataTerm);
+  elementCopy.setAttribute("data-year", dataYear);
   elementCopy.id = `selected-${originalElement.id}`;
   elementCopy.innerText = originalElement.id;
   elementCopy.addEventListener("dragstart", cardDragHandler);
@@ -172,6 +178,8 @@ function createTermCard(
 
   const termCard = document.createElement("div");
   termCard.className = "term-card";
+  const thisTerm = quarterMap[initialTerm];
+  const thisYear = initialYear;
   termCard.setAttribute("data-term", quarterMap[initialTerm]);
   termCard.setAttribute("data-year", initialYear);
 
@@ -243,7 +251,7 @@ function createTermCard(
 
   // Add all the planned courses
   for (const course of courses) {
-    dropZone.appendChild(createCourseCopy(course));
+    dropZone.appendChild(createCourseCopy(course, thisTerm, thisYear));
   }
 
   // Delete button
@@ -437,6 +445,25 @@ function generateCards() {
   }
 }
 
+const dropTrashHandler = (e) => {
+  e.preventDefault();
+
+  // Get the ID of the dragged element
+  const draggedId = e.dataTransfer.getData("text");
+  const draggedElement = document.getElementById(draggedId);
+  if (draggedElement.classList.contains("selected-card")) {
+    const courseId = draggedId.slice(-3);
+    draggedElement.remove();
+
+    // Update course counts
+    updateCourseCounts();
+
+    saveTermCardData();
+
+    updateDropzoneInstruction();
+  }
+};
+
 function dragDropSetup() {
   const cards = document.getElementsByClassName("flip-card");
 
@@ -446,30 +473,7 @@ function dragDropSetup() {
   }
 
   const trash = document.getElementById("trash");
-  trash.addEventListener("drop", (e) => {
-    e.preventDefault();
-
-    // Get the ID of the dragged element
-    const draggedId = e.dataTransfer.getData("text");
-    const draggedElement = document.getElementById(draggedId);
-    if (draggedElement.classList.contains("selected-card")) {
-      const courseId = draggedId.slice(-3);
-      draggedElement.remove();
-
-      // TODO: Remove course from localStorage
-      const termCardData = JSON.parse(
-        localStorage.getItem("termCards") || "[]"
-      );
-
-      // Update course counts
-      updateCourseCounts();
-
-      // Need to know which term card
-      const plannedCourses = termCardData["plannedCourses"];
-
-      updateDropzoneInstruction();
-    }
-  });
+  trash.addEventListener("drop", dropTrashHandler);
   trash.addEventListener("dragover", allowDrop);
 }
 
