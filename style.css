@@ -18,64 +18,64 @@ html {
 }
 
 .banner h1 {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 .course-plan {
-    border: 2px solid black;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 10px;
-    min-height: 500px;
-    width: auto;
-  }
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+  min-height: 500px;
+  width: auto;
+}
 
-  .box-title {
-    padding-left: 20px;
-  }
+.box-title {
+  padding-left: 20px;
+}
 
-  .course-selection {
-    border: 2px solid black;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 10px;
-  }
+.course-selection {
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+}
 
 .box-header {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    width: auto;
-    height: auto;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  width: auto;
+  height: auto;
 }
 
 .box-header-item {
-    margin: 10px 10px;
+  margin: 10px 10px;
 }
 
 .flex-container {
-    display: flex;
-    flex-flow: row wrap;
-    width: auto;
-    height: auto;
-  }
+  display: flex;
+  flex-flow: row wrap;
+  width: auto;
+  height: auto;
+}
 
-  .term-title {
-    border-bottom: 1px solid grey;
-  }
+.term-title {
+  border-bottom: 1px solid grey;
+}
 
-  .term-card {
-    position: relative;
-    flex-direction: column;
-    border: 1px solid grey;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 10px 20px;
-    min-width: 200px;
-    min-height: 300px;
-  }
+.term-card {
+  position: relative;
+  flex-direction: column;
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px 20px;
+  min-width: 200px;
+  min-height: 300px;
+}
 
-  .delete-btn {
+.delete-btn {
     position: absolute;
     bottom: 10px;
     right: 10px;
@@ -92,74 +92,97 @@ html {
     background-color: #D73F09;
 }
 
-  .flip-card {
-    border: 1px solid grey;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 10px;
-    min-width: 100px;
-    max-width: 300px;
-    height: auto;
-    text-align: center;
-  }
-
-  .drop-zone {
-    flex-grow: 1;
-    max-width: 95%;
-    max-height: 500px;
-    border: 1px dashed #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    margin: 10px 10px;
-    padding: 10px;
-    text-align: center;
-    line-height: 100px; /* Center text vertically */
-    color: #999;
+.flip-card {
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+  min-width: 100px;
+  max-width: 300px;
+  height: auto;
+  text-align: center;
 }
 
- /* Dropdown Button */
- .dropbtn {
-    background-color: lightgrey;
-    color: black;
-    padding: 16px;
-    font-size: 16px;
-    border: 1px solid white;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .dropbtn:hover, .dropbtn:focus {
-    background-color: #8E9089;
-    color: white;
-  }
-  
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    margin: 0 10px;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    max-height: 200px; /* Limit the height */
-    overflow-y: auto;  /* Enable vertical scroll */
-  }
-  
-  /* Links inside the dropdown */
-  .dropdown-content p {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content p:hover {background-color: #ddd;}
-  
-  /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-  .show {display:block;} 
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  flex-grow: 1;
+  max-width: 95%;
+  min-height: 180px;
+  max-height: 500px;
+  border: 1px dashed #ccc;
+  border-radius: 5px;
+  margin: 10px 10px;
+  padding: 10px;
+  text-align: center;
+  line-height: 100px; /* Center text vertically */
+  background-color: #f9f9f9;
+  color: #999;
+}
+
+/* Dropdown Button */
+.dropbtn {
+  background-color: lightgrey;
+  color: black;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover,
+.dropbtn:focus {
+  background-color: grey;
+  color: white;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  max-height: 200px; /* Limit the height */
+  overflow-y: auto; /* Enable vertical scroll */
+}
+
+/* Links inside the dropdown */
+.dropdown-content p {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content p:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+  display: block;
+}
+
+.selected-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 0px 0px;
+  padding: 0;
+  height: 40px;
+}
+
+.draggable {
+  cursor: grab;
+}
