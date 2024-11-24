@@ -26,7 +26,7 @@ function saveTermCardData() {
 }
 
 function loadTermCardData() {
-  const termCardData = JSON.parse(localStorage.getItem("termCards") || []);
+  const termCardData = JSON.parse(localStorage.getItem("termCards") || "[]");
 
   termCardData.forEach((data) => {
     createTermCard(data.term, data.year, data.plannedCourses);
@@ -43,7 +43,7 @@ const prereqCheck = (courseId, e) => {
   const thisYear = dropZone.getAttribute("data-year");
   courseId = courseId.slice(-3);
 
-  const termCardData = JSON.parse(localStorage.getItem("termCards") || []);
+  const termCardData = JSON.parse(localStorage.getItem("termCards") || "[]");
 
   const plannedPriorYears = termCardData.filter(
     (termCard) => termCard.year < thisYear
@@ -51,7 +51,7 @@ const prereqCheck = (courseId, e) => {
 
   const plannedPriorTerms = termCardData
     .filter((termCard) => termCard.year == thisYear)
-    .filter((termCard) => termCard.quarter.toString() < thisTerm);
+    .filter((termCard) => termCard.quarter < thisTerm);
 
   const plan1 = plannedPriorYears.map((obj) => obj.plannedCourses);
   const plan2 = plannedPriorTerms.map((obj) => obj.plannedCourses);
@@ -82,7 +82,7 @@ const termOfferedCheck = (courseId, term) => {
 };
 
 const courseAlreadyAdded = (courseId) => {
-  const termCardData = JSON.parse(localStorage.getItem("termCards") || []);
+  const termCardData = JSON.parse(localStorage.getItem("termCards") || "[]");
   const plannedCourses = termCardData.map((obj) => obj.plannedCourses).flat();
   const courseSet = new Set(plannedCourses);
   return courseSet.has(courseId.toString());
@@ -100,7 +100,7 @@ const cardDropHandler = (e) => {
   const isOfferedThisTerm = termOfferedCheck(elementId.slice(-3), currentTerm);
   const alreadyAdded = courseAlreadyAdded(elementId.slice(-3));
 
-  if (prereqMet && isOfferedThisTerm && !alreadyAdded) {
+  if (prereqMet && isOfferedThisTerm) {
     if (
       originalElement &&
       originalElement.classList.contains("selected-card")
@@ -109,8 +109,10 @@ const cardDropHandler = (e) => {
       originalElement.setAttribute("data-year", currentYear);
       e.target.appendChild(originalElement);
     } else {
-      const courseCopy = createCourseCopy(elementId);
-      e.target.appendChild(courseCopy, currentTerm, currentYear);
+      if (!alreadyAdded) {
+        const courseCopy = createCourseCopy(elementId);
+        e.target.appendChild(courseCopy, currentTerm, currentYear);
+      }
     }
   }
 
