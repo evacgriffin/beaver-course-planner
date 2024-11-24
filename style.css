@@ -193,3 +193,11 @@ html {
   width: 300px;
   background-color: aqua;
 }
+
+.drop-zone-empty {
+  color: red;
+}
+
+.drop-zone-not-empty {
+  display: none;
+}
