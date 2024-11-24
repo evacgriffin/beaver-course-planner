@@ -6,7 +6,6 @@ const quarterMap = {
   Summer: 3,
   Fall: 4,
 };
-// Function to save term card data to localStorage
 function saveTermCardData() {
   const termCards = document.querySelectorAll(".term-card");
   const termCardData = [];
@@ -15,7 +14,6 @@ function saveTermCardData() {
     const term = card.querySelector(".dropdown .dropbtn").textContent;
     const quarter = quarterMap[term];
     const year = card.querySelectorAll(".dropdown .dropbtn")[1].textContent;
-    // const instructions = card.querySelector(".drop-zone").textContent;
     const plannedCourses = [];
 
     const courses = card.querySelector(".drop-zone").children;
@@ -24,12 +22,11 @@ function saveTermCardData() {
     }
     termCardData.push({ term, quarter, year, plannedCourses });
   });
-  localStorage.setItem("termCards", JSON.stringify(termCardData)); // Save to localStorage
+  localStorage.setItem("termCards", JSON.stringify(termCardData));
 }
 
-// Function to load term card data from localStorage
 function loadTermCardData() {
-  const termCardData = JSON.parse(localStorage.getItem("termCards") || "[]");
+  const termCardData = JSON.parse(localStorage.getItem("termCards") || []);
 
   termCardData.forEach((data) => {
     createTermCard(data.term, data.year, data.plannedCourses);
@@ -46,16 +43,12 @@ const prereqCheck = (courseId, e) => {
   const thisYear = dropZone.getAttribute("data-year");
   courseId = courseId.slice(-3);
 
-  // Get all planned courses from local storage
-  let plannedCourses = new Set();
   const termCardData = JSON.parse(localStorage.getItem("termCards") || []);
 
-  // Courses that are planned in previous years
   const plannedPriorYears = termCardData.filter(
     (termCard) => termCard.year < thisYear
   );
 
-  // Courses that are planned this year and prior quarters
   const plannedPriorTerms = termCardData
     .filter((termCard) => termCard.year == thisYear)
     .filter((termCard) => termCard.quarter.toString() < thisTerm);
@@ -63,10 +56,8 @@ const prereqCheck = (courseId, e) => {
   const plan1 = plannedPriorYears.map((obj) => obj.plannedCourses);
   const plan2 = plannedPriorTerms.map((obj) => obj.plannedCourses);
   const combinedPlan = plan1.concat(plan2).flat();
-  plannedCourses = new Set(combinedPlan);
-  console.log(plannedCourses);
+  const plannedCourses = new Set(combinedPlan);
 
-  // Check all planned courses in prior term and year
   let prereqs = courses[courseId].prereq;
   for (let prereq of prereqs) {
     if (!plannedCourses.has(prereq.toString())) {
@@ -94,8 +85,6 @@ const courseAlreadyAdded = (courseId) => {
   const termCardData = JSON.parse(localStorage.getItem("termCards") || []);
   const plannedCourses = termCardData.map((obj) => obj.plannedCourses).flat();
   const courseSet = new Set(plannedCourses);
-  console.log(courseId);
-  console.log("course already added", courseSet.has(courseId.toString()));
   return courseSet.has(courseId.toString());
 };
 
@@ -110,7 +99,6 @@ const cardDropHandler = (e) => {
 
   const isOfferedThisTerm = termOfferedCheck(elementId.slice(-3), currentTerm);
   const alreadyAdded = courseAlreadyAdded(elementId.slice(-3));
-  console.log("prereq", prereqMet);
 
   if (prereqMet && isOfferedThisTerm && !alreadyAdded) {
     if (
@@ -168,24 +156,17 @@ const allowDrop = (e) => {
   e.preventDefault();
 };
 
-// Set the current year as the default
 const currentYear = new Date().getFullYear();
-
-// Set default term based on current month
-const currentMonth = new Date().getMonth(); // Get the current month (0-11)
+const currentMonth = new Date().getMonth();
 let currentTerm;
 
 if (currentMonth >= 8 && currentMonth <= 11) {
-  // September (8) to December (11)
   currentTerm = "Fall";
 } else if (currentMonth >= 0 && currentMonth <= 3) {
-  // January (0) to April (3)
   currentTerm = "Winter";
 } else if (currentMonth >= 4 && currentMonth <= 5) {
-  // May (4) to June (5)
   currentTerm = "Spring";
 } else if (currentMonth >= 6 && currentMonth <= 7) {
-  // July (6) to August (8)
   currentTerm = "Summer";
 }
 
@@ -196,10 +177,8 @@ let nextYear = currentYear;
 function getNextTermAndYear(currentTerm, currentYear) {
   const terms = ["Fall", "Winter", "Spring", "Summer"];
   const currentIndex = terms.indexOf(currentTerm);
-  const nextIndex = (currentIndex + 1) % terms.length; // Circular increment
+  const nextIndex = (currentIndex + 1) % terms.length;
   const nextTerm = terms[nextIndex];
-
-  // Increment year if transitioning to Winter
   const updatedYear = nextTerm === "Winter" ? currentYear + 1 : currentYear;
 
   return { nextTerm, updatedYear };
@@ -221,7 +200,6 @@ function createTermCard(
   termCard.setAttribute("data-term", quarterMap[initialTerm]);
   termCard.setAttribute("data-year", initialYear);
 
-  // Store the courses in this term card (initially an empty array)
   termCard.courses = [];
 
   const termDropdown = document.createElement("div");
@@ -244,7 +222,7 @@ function createTermCard(
     termOption.addEventListener("click", function () {
       termButton.textContent = this.textContent;
       termDropdownContent.classList.remove("show");
-      saveTermCardData(); // Save changes to localStorage
+      saveTermCardData();
     });
     termDropdownContent.appendChild(termOption);
   });
@@ -272,7 +250,7 @@ function createTermCard(
     yearOption.addEventListener("click", function () {
       yearButton.textContent = this.textContent;
       yearDropdownContent.classList.remove("show");
-      saveTermCardData(); // Save changes to localStorage
+      saveTermCardData();
     });
     yearDropdownContent.appendChild(yearOption);
   }
@@ -280,7 +258,6 @@ function createTermCard(
   yearDropdown.appendChild(yearButton);
   yearDropdown.appendChild(yearDropdownContent);
 
-  // Empty drop zone for course cards to be dropped into
   const dropZone = document.createElement("div");
   dropZone.className = "drop-zone";
   dropZone.innerText = initialInstructions;
@@ -297,13 +274,8 @@ function createTermCard(
   deleteButton.className = "delete-btn";
   deleteButton.textContent = "Delete Card";
   deleteButton.addEventListener("click", function () {
-    // Remove card from the DOM
     termCard.remove();
-
-    // Re-save the data to localStorage after removing the card
     saveTermCardData();
-
-    // Update course counts
     updateCourseCounts();
   });
 
@@ -318,29 +290,17 @@ function createTermCard(
   updateDropzoneInstruction();
 }
 
-// This function will be called to update the counts of required and elective courses
 function updateCourseCounts() {
   let requiredCount = 0;
   let electiveCount = 0;
 
-  // Get all term cards
   const termCards = document.querySelectorAll(".term-card");
-
-  // Loop through each term card
   termCards.forEach((termCard) => {
-    // Get all courses within the current term card
     const courseCards = termCard.querySelectorAll(".selected-card");
-
-    // Loop through each course card
     courseCards.forEach((courseCard) => {
-      // Extract the course ID from the innerText of the course card
       const courseId = courseCard.innerText;
-
-      // Get the course details from the courses object
       const courseData = courses[courseId];
-
       if (courseData) {
-        // Check if the course is required (core: true) or elective (core: false)
         if (courseData.core) {
           requiredCount++;
         } else {
@@ -350,7 +310,6 @@ function updateCourseCounts() {
     });
   });
 
-  // Update the course counts in the box header
   document.getElementById(
     "required-courses"
   ).textContent = `Required Courses: ${requiredCount} / 12`;
@@ -359,7 +318,6 @@ function updateCourseCounts() {
   ).textContent = `Electives: ${electiveCount} / 3`;
 }
 
-// Toggle showing options
 function termDropDown() {
   document.getElementById("dropdownItems").classList.toggle("show");
 }
@@ -368,20 +326,16 @@ function yearDropDown() {
   document.getElementById("dropdownYearItems").classList.toggle("show");
 }
 
-// Close the dropdown menu if the user clicks anywhere outside the menu
 window.onclick = function (event) {
-  // Check if the clicked element is a dropbtn
   if (event.target.matches(".dropbtn")) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
     for (var i = 0; i < dropdowns.length; i++) {
       var dropdown = dropdowns[i];
       if (dropdown.previousElementSibling !== event.target) {
-        // If the dropdown belongs to a different dropbtn, hide it
         dropdown.classList.remove("show");
       }
     }
   } else {
-    // If clicked outside of any dropbtn, hide all dropdowns
     var dropdowns = document.getElementsByClassName("dropdown-content");
     for (var i = 0; i < dropdowns.length; i++) {
       dropdowns[i].classList.remove("show");
@@ -389,42 +343,38 @@ window.onclick = function (event) {
   }
 };
 
-// Update the button text with the selected item's text
 function selectItem(element) {
   const button = document.getElementById("dropdown-term-button");
-  button.textContent = element.textContent; // Update button text
-  document.getElementById("dropdownItems").classList.remove("show"); // Close dropdown
+  button.textContent = element.textContent;
+  document.getElementById("dropdownItems").classList.remove("show");
 }
 
-// Update the button text with the selected year
 function selectYearItem(element) {
   const button = document.getElementById("dropdown-year-button");
   if (button && element) {
-    // console.log("Selected year:", element.textContent); // Debugging
-    button.textContent = element.textContent; // Update button text
+    button.textContent = element.textContent;
   } else {
     console.error("Error: Button or element is null");
   }
-  document.getElementById("dropdownYearItems").classList.remove("show"); // Close dropdown
+  document.getElementById("dropdownYearItems").classList.remove("show");
 }
 
 function generateYearOptions() {
   const currentYear = new Date().getFullYear();
   const dropdownYearItems = document.getElementById("dropdownYearItems");
   if (dropdownYearItems) {
-    dropdownYearItems.innerHTML = ""; // Clear existing options
+    dropdownYearItems.innerHTML = "";
   }
 
-  const range = 10; // Number of years before and after the current year
+  const range = 10;
   for (let year = currentYear + range; year >= currentYear - range; year--) {
     const yearOption = document.createElement("p");
     yearOption.textContent = year;
-    yearOption.style.margin = "5px 0"; // Add spacing for better visibility
-    yearOption.style.cursor = "pointer"; // Make it clear that this is clickable
+    yearOption.style.margin = "5px 0";
+    yearOption.style.cursor = "pointer";
 
-    // Attach event listener directly to avoid closure issues
     yearOption.addEventListener("click", function () {
-      selectYearItem(yearOption); // Pass the clicked element
+      selectYearItem(yearOption);
     });
     if (dropdownYearItems) {
       dropdownYearItems.appendChild(yearOption);
@@ -436,11 +386,9 @@ function generateCards() {
   const coreContainer = document.getElementById("core-cards-container");
   const electiveContainer = document.getElementById("elective-cards-container");
 
-  // Loop through the courses object and generate the flip cards
   for (const courseId in courses) {
     const course = courses[courseId];
 
-    // Create the flip card structure
     const flipCard = document.createElement("div");
     flipCard.id = courseId;
     flipCard.setAttribute("draggable", true);
@@ -449,7 +397,6 @@ function generateCards() {
     const flipCardInner = document.createElement("div");
     flipCardInner.classList.add("flip-card-inner");
 
-    // Front of the card
     const flipCardFront = document.createElement("div");
     flipCardFront.classList.add("flip-card-front");
 
@@ -459,22 +406,17 @@ function generateCards() {
 
     const courseNameElem = document.createElement("h4");
     courseNameElem.textContent = course.name;
-    // flipCardFront.appendChild(courseNameElem);
 
     const termsElem = document.createElement("p");
     termsElem.textContent = course.terms.join(", ");
-    // flipCardFront.appendChild(termsElem);
 
-    // Back of the card
     const flipCardBack = document.createElement("div");
     flipCardBack.classList.add("flip-card-back");
-    // flipCardBack.textContent = course.description;
 
     flipCardInner.appendChild(flipCardFront);
     flipCardInner.appendChild(flipCardBack);
     flipCard.appendChild(flipCardInner);
 
-    // Append to the appropriate container based on 'core' property
     if (course.core) {
       coreContainer.appendChild(flipCard);
     } else {
@@ -486,14 +428,12 @@ function generateCards() {
 const dropTrashHandler = (e) => {
   e.preventDefault();
 
-  // Get the ID of the dragged element
   const draggedId = e.dataTransfer.getData("text");
   const draggedElement = document.getElementById(draggedId);
   if (draggedElement.classList.contains("selected-card")) {
     const courseId = draggedId.slice(-3);
     draggedElement.remove();
 
-    // Update course counts
     updateCourseCounts();
 
     saveTermCardData();
@@ -515,7 +455,6 @@ function dragDropSetup() {
   trash.addEventListener("dragover", allowDrop);
 }
 
-// On page load, load saved term card data and generate years for drop down
 window.onload = function () {
   loadTermCardData();
   generateYearOptions();
