@@ -62,8 +62,9 @@ const prereqCheck = (courseId, e) => {
 
   const plan1 = plannedPriorYears.map((obj) => obj.plannedCourses);
   const plan2 = plannedPriorTerms.map((obj) => obj.plannedCourses);
-  const combinedPlan = plan1.concat(plan2);
-  plannedCourses = new Set(...combinedPlan);
+  const combinedPlan = plan1.concat(plan2).flat();
+  plannedCourses = new Set(combinedPlan);
+  console.log(plannedCourses);
 
   // Check all planned courses in prior term and year
   let prereqs = courses[courseId].prereq;
@@ -89,19 +90,29 @@ const termOfferedCheck = (courseId, term) => {
   return offeredTerms.includes(termStr);
 };
 
+const courseAlreadyAdded = (courseId) => {
+  const termCardData = JSON.parse(localStorage.getItem("termCards") || []);
+  const plannedCourses = termCardData.map((obj) => obj.plannedCourses).flat();
+  const courseSet = new Set(plannedCourses);
+  console.log(courseId);
+  console.log("course already added", courseSet.has(courseId.toString()));
+  return courseSet.has(courseId.toString());
+};
+
 const cardDropHandler = (e) => {
   e.preventDefault();
   const elementId = e.dataTransfer.getData("text");
   const originalElement = document.getElementById(elementId);
   const prereqMet = prereqCheck(elementId, e);
-  console.log(prereqMet);
 
   const currentTerm = e.target.parentElement.getAttribute("data-term");
   const currentYear = e.target.parentElement.getAttribute("data-year");
 
   const isOfferedThisTerm = termOfferedCheck(elementId.slice(-3), currentTerm);
+  const alreadyAdded = courseAlreadyAdded(elementId.slice(-3));
+  console.log("prereq", prereqMet);
 
-  if (prereqMet && isOfferedThisTerm) {
+  if (prereqMet && isOfferedThisTerm && !alreadyAdded) {
     if (
       originalElement &&
       originalElement.classList.contains("selected-card")

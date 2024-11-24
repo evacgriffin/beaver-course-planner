@@ -27,7 +27,7 @@ const courses = {
     name: "Data Structures",
     description:
       "Abstract data types, dynamic arrays, linked lists, trees and graphs, binary search trees, hash tables, storage management, complexity analysis of data structures.",
-    prereq: [225],
+    prereq: [225, 162],
     core: true,
     terms: ["Fa", "Wi", "Sp", "Su"],
   },
