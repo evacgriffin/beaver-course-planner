@@ -25,7 +25,6 @@ function saveTermCardData() {
   });
   console.log("saving term card data");
   localStorage.setItem("termCards", JSON.stringify(termCardData)); // Save to localStorage
-  //   console.log("Term cards saved:", termCardData);
 }
 
 // Function to load term card data from localStorage
@@ -54,6 +53,9 @@ const cardDropHandler = (e) => {
     console.log("finish dropping");
     saveTermCardData();
   }
+
+  // Update course counts
+  updateCourseCounts();
 };
 
 const createCourseCopy = (elementId) => {
@@ -72,9 +74,28 @@ const allowDrop = (e) => {
   e.preventDefault();
 };
 
+ // Set the current year as the default
+ const currentYear = new Date().getFullYear();
+
+// Set default term based on current month
+const currentMonth = new Date().getMonth(); // Get the current month (0-11)
+let currentTerm;
+
+if (currentMonth >= 8 && currentMonth <= 11) { // September (8) to December (11)
+  currentTerm = "Fall";
+} else if (currentMonth >= 0 && currentMonth <= 3) { // January (0) to April (3)
+  currentTerm = "Winter";
+} else if (currentMonth >= 4 && currentMonth <= 5) { // May (4) to June (5)
+  currentTerm = "Spring";
+} else if (currentMonth >= 6 && currentMonth <= 7) { // July (6) to August (8)
+    currentTerm = "Summer";
+}
+
+// TODO: Increment next new card to next term
+
 function createTermCard(
-  initialTerm = "Select Term",
-  initialYear = "Select Year",
+  initialTerm = currentTerm,
+  initialYear = currentYear,
   courses = []
   //   initialInstructions = "Drop classes here..."
 ) {
@@ -125,7 +146,6 @@ function createTermCard(
   const yearDropdownContent = document.createElement("div");
   yearDropdownContent.className = "dropdown-content";
 
-  const currentYear = new Date().getFullYear();
   const range = 10;
   for (let year = currentYear + range; year >= currentYear - range; year--) {
     const yearOption = document.createElement("p");
@@ -163,6 +183,9 @@ function createTermCard(
 
     // Re-save the data to localStorage after removing the card
     saveTermCardData();
+
+    // Update course counts
+    updateCourseCounts();
   });
 
   termCard.appendChild(termDropdown);
@@ -177,36 +200,46 @@ function createTermCard(
 
 // This function will be called to update the counts of required and elective courses
 function updateCourseCounts() {
-  let requiredCount = 0;
-  let electiveCount = 0;
-
-  // Get all term cards
-  const termCards = document.querySelectorAll(".term-card");
-
-  // Loop through each term card
-  termCards.forEach((termCard) => {
-    // Loop through the courses in each term card
-    termCard.courses.forEach((course) => {
-      // Check if the course is required (core: true) or elective (core: false)
-      if (course.core) {
-        requiredCount++;
-      } else {
-        electiveCount++;
-      }
+    let requiredCount = 0;
+    let electiveCount = 0;
+  
+    // Get all term cards
+    const termCards = document.querySelectorAll(".term-card");
+  
+    // Loop through each term card
+    termCards.forEach((termCard) => {
+      // Get all courses within the current term card
+      const courseCards = termCard.querySelectorAll(".selected-card");
+  
+      // Loop through each course card
+      courseCards.forEach((courseCard) => {
+        // Extract the course ID from the innerText of the course card
+        const courseId = courseCard.innerText;
+  
+        // Get the course details from the courses object
+        const courseData = courses[courseId];
+  
+        if (courseData) {
+          // Check if the course is required (core: true) or elective (core: false)
+          if (courseData.core) {
+            requiredCount++;
+          } else {
+            electiveCount++;
+          }
+        }
+      });
     });
-  });
+  
+    // Update the course counts in the box header
+    document.getElementById(
+      "required-courses"
+    ).textContent = `Required Courses: ${requiredCount} / 12`;
+    document.getElementById(
+      "elective-courses"
+    ).textContent = `Electives: ${electiveCount} / 3`;
+  }
 
-  // Update the course counts in the box header
-  document.getElementById(
-    "required-courses"
-  ).textContent = `Required Courses: ${requiredCount} / 12`;
-  document.getElementById(
-    "elective-courses"
-  ).textContent = `Electives: ${electiveCount} / 3`;
-}
-
-/* When the user clicks on the dropdown button,
-toggle between hiding and showing the dropdown content */
+// Toggle showing options
 function termDropDown() {
   document.getElementById("dropdownItems").classList.toggle("show");
 }
@@ -215,16 +248,23 @@ function yearDropDown() {
   document.getElementById("dropdownYearItems").classList.toggle("show");
 }
 
-// Close the dropdown menu if the user clicks outside of it
+// Close the dropdown menu if the user clicks anywhere outside the menu
 window.onclick = function (event) {
-  if (!event.target.matches(".dropbtn")) {
+  // Check if the clicked element is a dropbtn
+  if (event.target.matches(".dropbtn")) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains("show")) {
-        openDropdown.classList.remove("show");
+    for (var i = 0; i < dropdowns.length; i++) {
+      var dropdown = dropdowns[i];
+      if (dropdown.previousElementSibling !== event.target) {
+        // If the dropdown belongs to a different dropbtn, hide it
+        dropdown.classList.remove("show");
       }
+    }
+  } else {
+    // If clicked outside of any dropbtn, hide all dropdowns
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    for (var i = 0; i < dropdowns.length; i++) {
+      dropdowns[i].classList.remove("show");
     }
   }
 };
@@ -279,9 +319,6 @@ function generateCards() {
   // Loop through the courses object and generate the flip cards
   for (const courseId in courses) {
     const course = courses[courseId];
-
-    // Log the course being processed
-    // console.log(course);
 
     // Create the flip card structure
     const flipCard = document.createElement("div");
