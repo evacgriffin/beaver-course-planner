@@ -1,3 +1,5 @@
+const initialInstructions = `Drop classes here...`;
+
 // Function to save term card data to localStorage
 function saveTermCardData() {
   const termCards = document.querySelectorAll(".term-card");
@@ -80,11 +82,32 @@ const cardDropHandler = (e) => {
     }
   }
 
+  // Go through all drop-zones and check if they are empty
+  updateDropzoneInstruction();
+
   // Update course counts
   updateCourseCounts();
 };
 
+const updateDropzoneInstruction = () => {
+  const dropZones = document.querySelectorAll(".drop-zone");
+  for (const dropZone of dropZones) {
+    const isEmpty = dropZone.childElementCount === 0;
+    if (isEmpty) {
+      dropZone.innerText = initialInstructions;
+    } else {
+      while (
+        dropZone.firstChild &&
+        dropZone.firstChild.nodeType === Node.TEXT_NODE
+      ) {
+        dropZone.removeChild(dropZone.firstChild);
+      }
+    }
+  }
+};
+
 const createCourseCopy = (elementId) => {
+  if (!elementId) return;
   const originalElement = document.getElementById(elementId);
   const elementCopy = document.createElement("div");
   elementCopy.id = `selected-${elementId}`;
@@ -101,21 +124,25 @@ const allowDrop = (e) => {
   e.preventDefault();
 };
 
- // Set the current year as the default
- const currentYear = new Date().getFullYear();
+// Set the current year as the default
+const currentYear = new Date().getFullYear();
 
 // Set default term based on current month
 const currentMonth = new Date().getMonth(); // Get the current month (0-11)
 let currentTerm;
 
-if (currentMonth >= 8 && currentMonth <= 11) { // September (8) to December (11)
+if (currentMonth >= 8 && currentMonth <= 11) {
+  // September (8) to December (11)
   currentTerm = "Fall";
-} else if (currentMonth >= 0 && currentMonth <= 3) { // January (0) to April (3)
+} else if (currentMonth >= 0 && currentMonth <= 3) {
+  // January (0) to April (3)
   currentTerm = "Winter";
-} else if (currentMonth >= 4 && currentMonth <= 5) { // May (4) to June (5)
+} else if (currentMonth >= 4 && currentMonth <= 5) {
+  // May (4) to June (5)
   currentTerm = "Spring";
-} else if (currentMonth >= 6 && currentMonth <= 7) { // July (6) to August (8)
-    currentTerm = "Summer";
+} else if (currentMonth >= 6 && currentMonth <= 7) {
+  // July (6) to August (8)
+  currentTerm = "Summer";
 }
 
 // TODO: Increment next new card to next term
@@ -191,7 +218,7 @@ function createTermCard(
   // Empty drop zone for course cards to be dropped into
   const dropZone = document.createElement("div");
   dropZone.className = "drop-zone";
-  // dropZone.textContent = initialInstructions;
+  dropZone.innerText = initialInstructions;
   dropZone.addEventListener("drop", cardDropHandler);
   dropZone.addEventListener("dragover", allowDrop);
 
@@ -223,48 +250,49 @@ function createTermCard(
   document.getElementById("term-card-container").appendChild(termCard);
 
   updateCourseCounts();
+  updateDropzoneInstruction();
 }
 
 // This function will be called to update the counts of required and elective courses
 function updateCourseCounts() {
-    let requiredCount = 0;
-    let electiveCount = 0;
-  
-    // Get all term cards
-    const termCards = document.querySelectorAll(".term-card");
-  
-    // Loop through each term card
-    termCards.forEach((termCard) => {
-      // Get all courses within the current term card
-      const courseCards = termCard.querySelectorAll(".selected-card");
-  
-      // Loop through each course card
-      courseCards.forEach((courseCard) => {
-        // Extract the course ID from the innerText of the course card
-        const courseId = courseCard.innerText;
-  
-        // Get the course details from the courses object
-        const courseData = courses[courseId];
-  
-        if (courseData) {
-          // Check if the course is required (core: true) or elective (core: false)
-          if (courseData.core) {
-            requiredCount++;
-          } else {
-            electiveCount++;
-          }
+  let requiredCount = 0;
+  let electiveCount = 0;
+
+  // Get all term cards
+  const termCards = document.querySelectorAll(".term-card");
+
+  // Loop through each term card
+  termCards.forEach((termCard) => {
+    // Get all courses within the current term card
+    const courseCards = termCard.querySelectorAll(".selected-card");
+
+    // Loop through each course card
+    courseCards.forEach((courseCard) => {
+      // Extract the course ID from the innerText of the course card
+      const courseId = courseCard.innerText;
+
+      // Get the course details from the courses object
+      const courseData = courses[courseId];
+
+      if (courseData) {
+        // Check if the course is required (core: true) or elective (core: false)
+        if (courseData.core) {
+          requiredCount++;
+        } else {
+          electiveCount++;
         }
-      });
+      }
     });
-  
-    // Update the course counts in the box header
-    document.getElementById(
-      "required-courses"
-    ).textContent = `Required Courses: ${requiredCount} / 12`;
-    document.getElementById(
-      "elective-courses"
-    ).textContent = `Electives: ${electiveCount} / 3`;
-  }
+  });
+
+  // Update the course counts in the box header
+  document.getElementById(
+    "required-courses"
+  ).textContent = `Required Courses: ${requiredCount} / 12`;
+  document.getElementById(
+    "elective-courses"
+  ).textContent = `Electives: ${electiveCount} / 3`;
+}
 
 // Toggle showing options
 function termDropDown() {
@@ -416,6 +444,8 @@ function dragDropSetup() {
 
       // Need to know which term card
       const plannedCourses = termCardData["plannedCourses"];
+
+      updateDropzoneInstruction();
     }
   });
   trash.addEventListener("dragover", allowDrop);
