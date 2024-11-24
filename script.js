@@ -45,12 +45,12 @@ const createCourseCopy = (elementId) => {
   const originalElement = document.getElementById(elementId);
   const elementCopy = document.createElement("div");
   elementCopy.id = `selected-${elementId}`;
-  elementCopy.classList.add("selected-card");
+  elementCopy.classList.add("selected-card", "draggable");
   elementCopy.setAttribute("draggable", true);
   elementCopy.id = `selected-${originalElement.id}`;
   elementCopy.innerText = originalElement.id;
   elementCopy.addEventListener("dragstart", cardDragHandler);
-  elementCopy.addEventListener("dragover", allowDrop);
+  elementCopy.addEventListener("dragover", (e) => e.stopPropagation());
   return elementCopy;
 };
 const allowDrop = (e) => {
@@ -128,7 +128,7 @@ function createTermCard(
   // Empty drop zone for course cards to be dropped into
   const dropZone = document.createElement("div");
   dropZone.className = "drop-zone";
-  dropZone.textContent = initialInstructions;
+  //   dropZone.textContent = initialInstructions;
   dropZone.addEventListener("drop", cardDropHandler);
   dropZone.addEventListener("dragover", allowDrop);
 
@@ -266,7 +266,7 @@ function generateCards() {
     const flipCard = document.createElement("div");
     flipCard.id = courseId;
     flipCard.setAttribute("draggable", true);
-    flipCard.classList.add("flip-card");
+    flipCard.classList.add("flip-card", "draggable");
 
     const flipCardInner = document.createElement("div");
     flipCardInner.classList.add("flip-card-inner");
