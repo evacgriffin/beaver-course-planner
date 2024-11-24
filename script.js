@@ -442,6 +442,9 @@ function dragDropSetup() {
         localStorage.getItem("termCards") || "[]"
       );
 
+      // Update course counts
+      updateCourseCounts();
+
       // Need to know which term card
       const plannedCourses = termCardData["plannedCourses"];
 
